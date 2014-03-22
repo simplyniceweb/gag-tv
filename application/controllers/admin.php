@@ -12,21 +12,31 @@ class Admin extends CI_Controller {
 		$data = array(
 			'title' => 'Gagllery::Admin'
 		);
-/*
-		$hash = "aE2GCa-_nyU";
+
+		$this->load->view('admin/index', $data);
+	}
+	
+	public function process() {
+		$hash             = $this->input->post("hash");
+		$sub_title        = $this->input->post("sub_title");
+		$sub_descriptions = $this->input->post("sub_descriptions");
+
+		if(empty($hash) || empty($sub_title) || empty($sub_descriptions)) {
+			redirect("admin?msg=null");
+		}
 
 		// hash check
 		$this->db->where("hash", $hash);
 		$check_hash = $this->db->get("videos");
 		if($check_hash->num_rows() > 0) {
-			echo "exist";
+			redirect("admin?msg=exist");
 		}
 
 		$validation = self::youtube_validate($hash);
 		if(isset($validation) && !empty($validation)) {
+
 			$yt = self::youtube_details($hash);
 
-			$this->load->helper('file');
 			$img_url      = $yt['entry']['media$group']['media$thumbnail'][2]['url'];
 			$title        = $yt['entry']['title']['$t'];
 			$seconds      = $yt['entry']['media$group']['yt$duration']['seconds'];
@@ -44,11 +54,11 @@ class Admin extends CI_Controller {
 			$save = array(
 				'hash'             => $hash,
 				'title'            => $title,
-				'sub_title'        => 'sub_title',
+				'sub_title'        => $sub_title,
 				'duration'         => $seconds,
 				'image'            => $img_name,
 				'descriptions'     => $descriptions,
-				'sub_descriptions' => 'sub_descriptions',
+				'sub_descriptions' => $sub_descriptions,
 				'video_type'       => 1, // 1 youtube
 				'view_status'      => 5, // 5 accepted, 2 = pending, 1 = deleted
 				'created_at'       => date('Y-m-d h:i:s'),
@@ -56,9 +66,11 @@ class Admin extends CI_Controller {
 			);
 
 			$this->db->insert("videos", $save);
+
+			redirect("admin?msg=added");
 		}
-*/
-		$this->load->view('admin/index', $data);
+
+		redirect("admin?msg=null");
 	}
 
 	public function youtube_validate($youtube_hash = NULL) {

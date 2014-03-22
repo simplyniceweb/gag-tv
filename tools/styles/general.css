@@ -19,6 +19,9 @@ body {
 	.video-details p {
 		color: #777777
 	}
+	span.btn {
+		cursor: default
+	}
 
 /* featured videos */
 .featured-video {

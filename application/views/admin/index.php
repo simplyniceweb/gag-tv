@@ -7,16 +7,27 @@
         	<?php echo form_open("admin/process", array("role" => "form")); ?>
             	<div class="form-group">
                 	<label for="youtube-id">Youtube ID</label>
-                    <input type="text" id="youtube-id" class="form-control" name="hash"/>
+                    <div class="input-group">
+                    	<input type="text" id="youtube-id" class="form-control" name="hash" required autofocus/>
+                    	<span class="input-group-addon"><i class="fa fa-youtube-play"></i></span>
+                    </div>
                 </div>
             	<div class="form-group">
                 	<label for="youtube-title">Cusom Title</label>
-                    <input type="text" id="youtube-title" class="form-control" name="sub_title"/>
+                    <div class="input-group">
+                      <input type="text" id="youtube-title" class="form-control" name="sub_title" required/>
+                      <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                    </div>
                 </div>
             	<div class="form-group">
                 	<label for="youtube-desc">Cusom Descriptions</label>
-                    <textarea id="youtube-desc" class="form-control" name="sub_descriptions"></textarea>
+                    <textarea id="youtube-desc" class="form-control" name="sub_descriptions" required></textarea>
                 </div>
+                <div class="form-group">
+                	<button type="submit" class="btn btn-primary btn-sm pull-right">
+                    <span class="fa fa-heart"></span> &nbsp; Add to Gagllery</button>
+                </div>
+                <div class="clearfix"></div>
             <?php echo form_close(); ?>
 		</div>
 		</div>

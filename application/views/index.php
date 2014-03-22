@@ -1,32 +1,49 @@
 <?php include(__DIR__ . "/header.php"); ?>
-
+<?php 
+	foreach($featured as $feat) {
+		$minute = floor($feat->duration / 60);
+		$duration = $feat->duration - ($minute * 60);
+	}
+?>
 <section class="page-content">
     <div class="container">
         <div class="row">
+        	<span class="youtube-id" data-id="<?php echo $feat->hash; ?>"></span>
         	<div class="col-sm-8">
 				<div class="theater video-wrapper">
-                	<iframe src="//www.youtube.com/embed/4OP_hGBzwSg?rel=0" frameborder="0" allowfullscreen></iframe>
+                	<iframe src="//www.youtube.com/embed/<?php echo $feat->hash; ?>?rel=0&controls=0&showinfo=0&showinfo=0" 
+                    frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
 
             <div class="col-sm-4 video-details">
-                <h3>This Award Winning Horror Short Film Will Make You Afraid To Turn Off The Lights.</h3>
+                <h3><?php echo $feat->title; //sub_ ?></h3>
                 <p></p>
-                <p>A woman sees something in the dark. 
-                David Sandberg won Best Director at this year's Bloody Cuts Horror Challenge for "Lights Out".</p>
-                
+                <p><?php echo $feat->descriptions; //sub_ ?></p>
+                <p>
+                    <span class="fa fa-clock-o" title="Video duration"></span> &nbsp; 
+                    <small><?php echo $minute. ":" .$duration; ?></small>&nbsp&nbsp&nbsp
+
+                    <span class="fa fa-eye" title="View count"></span> &nbsp; 
+                    <small class="view-count"></small>
+                </p>
+
+                <p>
+                    <span class="fa fa-thumbs-o-up" title="Video duration"></span> &nbsp; 
+                    <small class="like-count"></small>&nbsp&nbsp&nbsp
+
+                    <span class="fa fa-thumbs-o-down" title="View count"></span> &nbsp; 
+                    <small class="dislike-count"></small>
+                </p>
+
                 <div class="btn-group">
-                    <a type="button" class="active btn btn-primary">Facebook</a>
-                    <a type="button" class="btn btn-primary">
-                        <span class="fa fa-facebook fa-lg"></span>
-                    </a>
+                    <a type="button" class="btn btn-primary">Facebook</a>
+                    <span class="active btn btn-primary"><i class="fa fa-facebook fa-lg"></i></span>
                 </div>
 
                 <div class="btn-group">
-                    <a type="button" class="active btn btn-info">Twitter</a>
-                    <a type="button" class="btn btn-info">
-                        <span class="fa fa-twitter fa-lg"></span>
-                    </a>
+                    <a type="button" class="btn btn-info">Twitter</a>
+                    <span class="active btn btn-info"><i class="fa fa-twitter fa-lg"></i></span>
                 </div>
 <!--
                 <div class="btn-group">
@@ -49,17 +66,29 @@
 				</div>
             </div>
             <div class="col-sm-12">
-            <?php for($i=0;$i<8;$i++) { ?>
+            <?php
+			foreach($videos as $vid) { 
+				$minute = floor($feat->duration / 60);
+				$duration = $feat->duration - ($minute * 60);
+			?>
             <div class="col-md-3 col-sm-4 col-xs-6">
                 <div class="thumbnail">
                     <a href="">
-                        <img src="https://fbexternal-a.akamaihd.net/safe_image.php?d=AQAUu595DrunDeN-&w=398&h=208&url=http%3A%2F%2Fi1.ytimg.com%2Fvi%2F4OP_hGBzwSg%2Fhqdefault.jpg&cfs=1&upscale&sx=0&sy=0&sw=480&sh=251"/>
+                        <img src="<?php echo base_url(). "tools/images/" .$vid->image; ?>"/>
                     </a>
-                    <div class="caption"><p><?php echo ucwords("Thumbnail label"); ?></p></div>
+                    <div class="caption">
+                        <p>
+							<?php echo ucwords($vid->title); ?>
+                            <span class="fa fa-clock-o" title="Video duration"></span> &nbsp; 
+                            <small><?php echo $minute. ":" .$duration; ?></small>
+                        </p>
+                    </div>
                 </div>
             </div>
             <?php } ?>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-2 col-md-offset-5">
                 <ul class="pager">
                   <li class="previous"><a href="#">&larr; Prev</a></li>
