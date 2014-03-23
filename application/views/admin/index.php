@@ -14,20 +14,26 @@
                 </div>
             	<div class="form-group">
                 	<label for="youtube-title">Cusom Title</label>
-                    <div class="input-group">
-                      <input type="text" id="youtube-title" class="form-control" name="sub_title" required/>
-                      <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                    </div>
+					<textarea id="youtube-title" class="form-control" name="sub_title" required></textarea>
                 </div>
             	<div class="form-group">
                 	<label for="youtube-desc">Cusom Descriptions</label>
                     <textarea id="youtube-desc" class="form-control" name="sub_descriptions" required></textarea>
                 </div>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-success">
+                    <input type="radio" name="nsfw" value="0"> SFW
+                  </label>
+                  <label class="btn btn-danger">
+                    <input type="radio" name="nsfw" value="1"> NSFW
+                  </label>
+                </div>
+                <br/>
+                <div class="clearfix"></div>
                 <div class="form-group">
                 	<button type="submit" class="btn btn-primary btn-sm pull-right">
                     <span class="fa fa-heart"></span> &nbsp; Add to Gagllery</button>
                 </div>
-                <div class="clearfix"></div>
             <?php echo form_close(); ?>
 		</div>
 		</div>

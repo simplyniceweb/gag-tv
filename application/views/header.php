@@ -1,17 +1,11 @@
-<?php include(__DIR__ . "/metadata.php"); ?>
-<!--
-	https://github.com/jimdoescode/CodeIgniter-YouTube-API-Library
-    https://developers.google.com/youtube/articles/codeigniter_library
-	https://github.com/simplynice25/gagllery/blob/master/application/controllers/upload.php
-	http://stackoverflow.com/questions/17251007/getting-title-description-and-number-of-views-of-a-youtube-video
-    http://stackoverflow.com/questions/7772801/getting-time-length-of-youtube-video-file
-    
-    
-	http://bestofyoutube.com/
-    http://devour.com/
-    http://www.wimp.com/
-https://www.google.com.ph/search?q=best+of+youtube+videos+website&oq=best+of+youtube+videos+website&aqs=chrome..69i57j0l5.6544j0j7&sourceid=chrome&espv=210&es_sm=122&ie=UTF-8
--->
+<?php 
+if($this->uri->segment(1) == "admin") {
+	include(__DIR__ . "/admin/metadata.php");
+} else {
+	include(__DIR__ . "/includes/metadata.php");
+}
+?>
+
 <body>
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation">

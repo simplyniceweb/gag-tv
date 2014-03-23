@@ -1,0 +1,48 @@
+https://github.com/jimdoescode/CodeIgniter-YouTube-API-Library
+https://developers.google.com/youtube/articles/codeigniter_library
+https://github.com/simplynice25/gagllery/blob/master/application/controllers/upload.php
+http://stackoverflow.com/questions/17251007/getting-title-description-and-number-of-views-of-a-youtube-video
+http://stackoverflow.com/questions/7772801/getting-time-length-of-youtube-video-file
+
+
+http://bestofyoutube.com/
+http://devour.com/
+http://www.wimp.com/
+https://www.google.com.ph/search?q=best+of+youtube+videos+website&oq=best+of+youtube+videos+website&aqs=chrome..69i57j0l5.6544j0j7&sourceid=chrome&espv=210&es_sm=122&ie=UTF-8
+
+<script>
+var tag = document.createElement('script');
+tag.src = "http://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player;
+function onYouTubePlayerAPIReady() {
+	player = new YT.Player('player', {
+	  videoId: config.yt_id,
+	  events: {
+		'onStateChange': onPlayerStateChange
+	  }
+	});
+}
+
+var myPlayerState;
+function onPlayerStateChange(event) {
+	if (event.data == YT.PlayerState.PLAYING) {
+		showHideYT(0);
+	} else if (event.data == YT.PlayerState.ENDED) {
+		showHideYT(1);
+	}
+	myPlayerState = event.data;
+}
+
+function showHideYT(action) {
+	$(".now-playing").each(function(){
+		$(this).hide();
+	})
+
+	if(action == 0) {
+		$(".now-playing[data-youtube-id="+config.yt_id+"]").show();
+	}
+}
+</script>

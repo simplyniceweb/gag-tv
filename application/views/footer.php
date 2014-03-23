@@ -1,2 +1,2 @@
 <footer></footer>
-<?php include(__DIR__ . "/scripts.php"); ?>
+<?php include(__DIR__ . "/includes/scripts.php"); ?>

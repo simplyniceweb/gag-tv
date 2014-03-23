@@ -1,8 +1,7 @@
 <div id="fb-root"></div>
 <script src="<?php echo base_url() ?>tools/scripts/jquery-2.1.0.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url() ?>tools/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.3.1/jquery.cookie.min.js"></script>
-<?php $this->load->view("configuration"); ?>
+<?php $this->load->view("includes/configuration"); ?>
 <script src="<?php echo base_url() ?>tools/scripts/general.js" type="text/javascript"></script>
 <script type="text/javascript">
 (function(d, s, id) {

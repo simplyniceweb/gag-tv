@@ -39,6 +39,8 @@
 */
 
 $route['default_controller'] = "index";
+$route['v/(:any)'] = "index/index/$1";
+$route['np/(:num)/(:any)'] = "index/next_prev/$1/$2";
 $route['404_override'] = '';
 
 

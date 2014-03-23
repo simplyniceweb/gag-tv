@@ -16,5 +16,19 @@ class Video_model extends CI_Model {
 
 		return "go";
 	}
+
+	public function video_pagination($start, $max) {
+		$this->db->where("view_status", 5);
+		$this->db->order_by("video_id", "DESC");
+		$this->db->limit($max, $start);
+		$videos = $this->db->get("videos");
+
+		return $videos->result();
+	}
+
+	public function total_videos() {
+		$this->db->where("view_status", 5);
+		return $this->db->count_all('videos');
+	}
 }
 ?>

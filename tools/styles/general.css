@@ -4,7 +4,7 @@ body {
 
 /* page content */
 .page-content {
-	padding: 40px 0;
+	padding: 20px 0 0px 0;
 	background-color: #000000
 }
 .theater.video-wrapper iframe {
@@ -19,10 +19,16 @@ body {
 	.video-details p {
 		color: #777777
 	}
-	span.btn {
-		cursor: default
-	}
-
+span.yt-rating small{
+	width: 250px;
+	display: inline
+}
+span.btn {
+	cursor: default
+}
+.prev-next {
+	margin-top: 5px
+}
 /* featured videos */
 .featured-video {
 	padding: 20px 0;
@@ -34,13 +40,37 @@ body {
 }
 .thumbnail {
 	border: 0;
+	margin: 0;
+	height: 220px;
 	background: none
 }
-.thumbnail .caption {
-	font-weight: bold;
-	padding: 9px 0 0 0;
+	.thumbnail a {
+		display: block;
+		background-color: #A4A4A4;
+		position: relative;
+	}
+	.thumbnail .caption {
+		font-weight: bold;
+		padding: 5px 0 0 0;
+	}
+.video-play {
+	display: none;
+	top: 50%;
+	left: 50%;
+	width: 48px;
+	height: 48px;
+	opacity: 0.80;
+	position: absolute;
+	margin-top: -24px;
+	margin-left: -24px;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+	background: transparent url('../icons/play.png') no-repeat;
 }
-
+	.thumbnail:hover .video-play {
+		display: table-cell;
+		vertical-align: middle
+	}
 /* footer */
 footer {
 	padding: 40px 0;

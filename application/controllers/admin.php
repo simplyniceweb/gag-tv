@@ -4,8 +4,6 @@ class Admin extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('video_model');
-		$this->load->library('image_moo');
     }
 
 	public function index() {
@@ -17,9 +15,20 @@ class Admin extends CI_Controller {
 	}
 	
 	public function process() {
-		$hash             = $this->input->post("hash");
-		$sub_title        = $this->input->post("sub_title");
+		$url              = $this->input->post("hash");
+		$sub_title        = ucwords($this->input->post("sub_title"));
 		$sub_descriptions = $this->input->post("sub_descriptions");
+		$nsfw             = $this->input->post("nsfw");
+
+		$yt_hash          = explode("?v=", $url);
+		$hash             = $yt_hash[1];
+		if(empty($hash)) {
+			$yt_hash      = explode("&v=", $url);
+			$hash         = $yt_hash[1];
+			if(empty($hash)) {
+				$hash         = $url;
+			}
+		}
 
 		if(empty($hash) || empty($sub_title) || empty($sub_descriptions)) {
 			redirect("admin?msg=null");
@@ -32,15 +41,24 @@ class Admin extends CI_Controller {
 			redirect("admin?msg=exist");
 		}
 
-		$validation = self::youtube_validate($hash);
+		$this->load->library(array('image_moo', 'general'));
+
+		$validation = $this->general->youtube_validate($hash);
 		if(isset($validation) && !empty($validation)) {
 
-			$yt = self::youtube_details($hash);
+			$yt = $this->general->youtube_details($hash);
 
 			$img_url      = $yt['entry']['media$group']['media$thumbnail'][2]['url'];
 			$title        = $yt['entry']['title']['$t'];
 			$seconds      = $yt['entry']['media$group']['yt$duration']['seconds'];
 			$descriptions = $yt['entry']['media$group']['media$description']['$t'];
+
+			// Time calculation
+			if($seconds >= 3600) {
+				$duration = gmdate("h:i:s", $seconds);
+			} else if($seconds < 3600){
+				$duration = gmdate("i:s", $seconds);
+			}
 
 			// Upload image
 			$img_name = $hash . ".jpg";
@@ -48,17 +66,19 @@ class Admin extends CI_Controller {
 			$copy_img = copy($img_url, $local_path . "images/".$img_name);
 
 			// Customize Image
+			$this->load->model('video_model');
 			$this->video_model->manipulate_img( $local_path . "images/".$img_name, $local_path . "icons/via.png" );
 
 			// Insert to database
 			$save = array(
 				'hash'             => $hash,
-				'title'            => $title,
+				// 'title'            => $title,
 				'sub_title'        => $sub_title,
-				'duration'         => $seconds,
+				'duration'         => $duration,
 				'image'            => $img_name,
-				'descriptions'     => $descriptions,
+				// 'descriptions'     => $descriptions,
 				'sub_descriptions' => $sub_descriptions,
+				'nsfw'             => $nsfw,
 				'video_type'       => 1, // 1 youtube
 				'view_status'      => 5, // 5 accepted, 2 = pending, 1 = deleted
 				'created_at'       => date('Y-m-d h:i:s'),
@@ -71,20 +91,6 @@ class Admin extends CI_Controller {
 		}
 
 		redirect("admin?msg=null");
-	}
-
-	public function youtube_validate($youtube_hash = NULL) {
-		$params['apikey'] = 'AI39si70XRv7aReKupQOlDgnFtHAEY6PR559ysCDOjqpOU-gT_fWLRb7I7TBHEK6SwqUs3DZ1z0UzC7nIc7GpzBX9fWtCNQl1Q';
-		$this->load->library('youtube', $params);
-
-		$information = $this->youtube->getVideoEntry($youtube_hash);
-		return $information;
-	}
-
-	public function youtube_details($youtube_hash = NULL) {
-		$youtube_json_output = file_get_contents("http://gdata.youtube.com/feeds/api/videos/" . $youtube_hash . "?v=2&alt=json");
-		$youtube_decoded = json_decode($youtube_json_output, true);
-		return $youtube_decoded;
 	}
 }
 
