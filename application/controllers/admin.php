@@ -18,7 +18,7 @@ class Admin extends CI_Controller {
 
 		$this->load->view('admin/index', $data);
 	}
-	
+
 	public function process() {
 		$access = $this->session->userdata('access');
 		if(!$access) {
@@ -104,7 +104,6 @@ class Admin extends CI_Controller {
 	}
 
 	public function access_session() {
-		// http://gagllery.com/admin/access_session/?hash=E9o74KfN
 		$value = $this->input->get_post("hash");
 		if($value == "E9o74KfN") {
 			$access = array(

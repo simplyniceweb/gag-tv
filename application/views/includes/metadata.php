@@ -13,18 +13,18 @@ if(isset($featured)) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
-    <meta itemprop="name" content="<?php echo $feat->sub_title; ?>">
+    <meta itemprop="name" content="<?php echo $feat->sub_title; if($feat->nsfw == 1) { echo " (NSFW)"; } ?>">
     <meta itemprop="description" content="<?php echo $feat->sub_descriptions; ?>">
     <meta itemprop="image" content="<?php echo base_url() ?>tools/images/<?php echo $feat->image; ?>">
 
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:site" content="Gagllery.com"/>
     <meta name="twitter:url" content="<?php echo base_url() ?>v/<?php echo $feat->hash; ?>"/>
-    <meta name="twitter:title" content="<?php echo $feat->sub_title; ?>"/>
+    <meta name="twitter:title" content="<?php echo $feat->sub_title; if($feat->nsfw == 1) { echo " (NSFW)"; } ?>"/>
     <meta name="twitter:description" content="<?php echo $feat->sub_descriptions; ?>"/>
     <meta name="twitter:image" content="<?php echo base_url() ?>tools/images/<?php echo $feat->image; ?>"/>
 
-    <meta property="og:title" content="<?php echo $feat->sub_title; ?>" />
+    <meta property="og:title" content="<?php echo $feat->sub_title; if($feat->nsfw == 1) { echo " (NSFW)"; } ?>" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="<?php echo base_url() ?>v/<?php echo $feat->hash; ?>" />
     <meta property="og:image" content="<?php echo base_url() ?>tools/images/<?php echo $feat->image; ?>"/>

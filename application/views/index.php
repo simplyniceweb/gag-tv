@@ -27,9 +27,12 @@
             </div>
 
             <div class="col-sm-4 video-details">
-                <h3><?php echo $feat->sub_title; //sub_ ?></h3>
+                <h3>
+				<?php echo $feat->sub_title; ?>
+                <?php if($feat->nsfw == 1) { echo "(NSFW)"; }?>
+                </h3>
                 <p></p>
-                <p><?php echo $feat->sub_descriptions; //sub_ ?></p>
+                <p><?php echo $feat->sub_descriptions; ?></p>
                 <p>
                     <span class="fa fa-thumbs-o-up" title="Like count"></span> &nbsp; <small class="like-count"></small>
                     &nbsp;&nbsp;&nbsp;

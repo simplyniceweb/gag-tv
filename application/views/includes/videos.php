@@ -14,6 +14,10 @@
                         } else {
                             echo $title;
                         }
+
+						if($vid->nsfw == 1) {
+							echo " (NSFW)";
+						}
                     ?>
                     <small class="alert-info">
                         <!-- <span class="fa fa-clock-o" title="Video duration"></span> &nbsp; -->

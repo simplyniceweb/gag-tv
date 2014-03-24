@@ -45,7 +45,7 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'development';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -64,10 +64,10 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-$db['development']['hostname'] = 'localhost';
-$db['development']['username'] = '';
-$db['development']['password'] = '';
-$db['development']['database'] = '';
+$db['development']['hostname'] = '209.54.49.222';
+$db['development']['username'] = 'gagllery';
+$db['development']['password'] = 'E9o74Xr@3ad';
+$db['development']['database'] = 'gagllery';
 $db['development']['dbdriver'] = 'mysql';
 $db['development']['dbprefix'] = '';
 $db['development']['pconnect'] = TRUE;
