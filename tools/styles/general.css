@@ -4,7 +4,7 @@ body {
 
 /* page content */
 .page-content {
-	padding: 20px 0 0px 0;
+	padding: 40px 0 10px 0;
 	background-color: #000000
 }
 .theater.video-wrapper iframe {
@@ -27,7 +27,7 @@ span.btn {
 	cursor: default
 }
 .prev-next {
-	margin-top: 5px
+	margin: 5px 0
 }
 /* featured videos */
 .featured-video {

@@ -11,7 +11,7 @@ class Index extends CI_Controller {
 
 		$hash = $this->uri->segment(2);
 		$validation = $this->general->youtube_validate($hash);
-		if(isset($validation) && !empty($validation)) {
+		if(!empty($hash) && !is_null($validation) && !empty($validation)) {
 			$this->db->where("hash", $hash);
 		}
 
@@ -53,7 +53,7 @@ class Index extends CI_Controller {
 
 		}
 	}
-	
+
 	public function videos() {
 		$this->load->library('pagination');
 		$this->load->model('video_model');

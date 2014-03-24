@@ -15,10 +15,13 @@
 |
 */
 $url = 1;
+
 if($url == 0) {
 	$config['base_url']	= 'http://localhost/gagllery/';
-} else {
+} else if($url == 1){
 	$config['base_url']	= 'http://gagllery.com/gagllery/';
+} else {
+	$config['base_url']	= 'http://gagllery.com/';
 }
 
 /*

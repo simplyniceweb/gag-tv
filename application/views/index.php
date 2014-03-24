@@ -24,7 +24,6 @@
                     <span class="btn btn-default pull-right">Next &nbsp; <span class="fa fa-arrow-right"></span></span>
                     <?php } ?>
 				</div>
-                <br/>
             </div>
 
             <div class="col-sm-4 video-details">

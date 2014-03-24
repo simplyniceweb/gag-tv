@@ -7,6 +7,11 @@ class Admin extends CI_Controller {
     }
 
 	public function index() {
+		$access = $this->session->userdata('access');
+		if(!$access) {
+			redirect();
+		}
+
 		$data = array(
 			'title' => 'Gagllery::Admin'
 		);
@@ -15,6 +20,11 @@ class Admin extends CI_Controller {
 	}
 	
 	public function process() {
+		$access = $this->session->userdata('access');
+		if(!$access) {
+			redirect();
+		}
+
 		$url              = $this->input->post("hash");
 		$sub_title        = ucwords($this->input->post("sub_title"));
 		$sub_descriptions = $this->input->post("sub_descriptions");
@@ -91,6 +101,21 @@ class Admin extends CI_Controller {
 		}
 
 		redirect("admin?msg=null");
+	}
+
+	public function access_session() {
+		// http://gagllery.com/admin/access_session/?hash=E9o74KfN
+		$value = $this->input->get_post("hash");
+		if($value == "E9o74KfN") {
+			$access = array(
+				'access' => true,
+			);
+	
+			$this->session->set_userdata('access', $access);
+			redirect("admin");
+		}
+
+		redirect();
 	}
 }
 
