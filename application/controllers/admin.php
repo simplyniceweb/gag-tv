@@ -9,20 +9,21 @@ class Admin extends CI_Controller {
 	public function index() {
 		$access = $this->session->userdata('access');
 		if(!$access) {
-			redirect();
+			show_404();
 		}
 
 		$data = array(
-			'title' => 'Gagllery::Admin'
+			'title' => 'Gagllery - Admin'
 		);
 
 		$this->load->view('admin/index', $data);
 	}
 
 	public function process() {
+		$this->load->library(array('image_moo', 'general'));
 		$access = $this->session->userdata('access');
 		if(!$access) {
-			redirect();
+			show_404();
 		}
 
 		$url              = $this->input->post("hash");
@@ -30,15 +31,7 @@ class Admin extends CI_Controller {
 		$sub_descriptions = $this->input->post("sub_descriptions");
 		$nsfw             = $this->input->post("nsfw");
 
-		$yt_hash          = explode("?v=", $url);
-		$hash             = $yt_hash[1];
-		if(empty($hash)) {
-			$yt_hash      = explode("&v=", $url);
-			$hash         = $yt_hash[1];
-			if(empty($hash)) {
-				$hash         = $url;
-			}
-		}
+		$hash = $this->general->explode_url($url);
 
 		if(empty($hash) || empty($sub_title) || empty($sub_descriptions)) {
 			redirect("admin?msg=null");
@@ -50,8 +43,6 @@ class Admin extends CI_Controller {
 		if($check_hash->num_rows() > 0) {
 			redirect("admin?msg=exist");
 		}
-
-		$this->load->library(array('image_moo', 'general'));
 
 		$validation = $this->general->youtube_validate($hash);
 		if(isset($validation) && !empty($validation)) {
@@ -114,7 +105,110 @@ class Admin extends CI_Controller {
 			redirect("admin");
 		}
 
-		redirect();
+		show_404();
+	}
+
+	public function suggestions() {
+		$access = $this->session->userdata('access');
+		if(!$access) {
+			show_404();
+		}
+
+		$this->db->where("view_status", 2);
+		$suggestions = $this->db->get("suggestions");
+
+		$data = array(
+			'title'       => 'Gagllery - Suggestions',
+			'suggestions' => $suggestions->result()
+		);
+
+		$this->load->view('admin/suggestions', $data);
+	}
+
+	public function suggestion() {
+		$access = $this->session->userdata('access');
+		if(!$access) {
+			show_404();
+		}
+		
+		$id = $this->input->post("suggest_id");
+
+		$data = array(
+			'full_name'   => $this->input->post("name"),
+			'email'       => $this->input->post("email"),
+			'link'        => $this->input->post("link"),
+			'title'       => $this->input->post("title"),
+			'description' => $this->input->post("desc"),
+			'nsfw'        => $this->input->post("nsfw"),
+			'modified_at' => date('Y-m-d h:i:s')
+		);
+		
+		$this->db->where("suggestion_id", $id);
+		$this->db->update("suggestions", $data);
+
+		redirect("admin/suggestions?updated=true");
+	}
+
+	public function accept() {
+		$id = $this->uri->segment(3);
+		$this->db->where("suggestion_id", $id);
+		$get = $this->db->get("suggestions");
+
+		foreach($get->result() as $g) {
+			$name  = $g->full_name;
+			$email = $g->email;
+			$transfer = array(
+				'image'            => $g->link.".jpg",
+				'hash'             => $g->link,
+				'sub_title'        => $g->title,
+				'duration'         => $g->duration,
+				'sub_descriptions' => $g->description,
+				'nsfw'             => $g->nsfw,
+				'video_type'       => 1,
+				'view_status'      => 5,
+				'created_at'       => $g->created_at,
+				'modified_at'      => $g->modified_at
+			);
+
+			$this->db->insert("videos", $transfer);
+		}
+
+		$data = array("view_status" => 5, "modified_at" => date('Y-m-d h:i:s') );
+		$this->db->where("suggestion_id", $id);
+		$this->db->update("suggestions", $data);
+
+		$config = array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.googlemail.com',
+			'smtp_port' => 465,
+			'smtp_user' => 'gagllery@gmail.com',
+			'smtp_pass' => 'E9o74KfN519025',
+			'mailtype'  => 'html', 
+			'charset'   => 'iso-8859-1'
+		);
+
+		$this->load->library('email', $config);
+		$this->email->set_newline("\r\n");
+		
+		$this->email->from('gagllery@gmail.com', '[Gagllery]');
+		$this->email->to($email);
+		$this->email->subject('[Gagllery] Notification');
+		$this->email->message('Hello '.ucwords($name).', <br />Thank you for suggesting a video! Please do suggest more coold videos. <br /> Below is the link of the video you submitted.<br /> '. base_url()."v/".$transfer['hash']);
+
+		$sent = $this->email->send();
+		if($sent) {
+			redirect("admin/suggestions?accepted=true&mail=true");
+		} else {
+			redirect("admin/suggestions?accepted=true&mail=false");
+		}
+	}
+
+	public function disapprove() {
+		$id = $this->uri->segment(3);
+
+		$data = array("view_status" => 1, "modified_at" => date('Y-m-d h:i:s') );
+		$this->db->where("suggestion_id", $id);
+		$this->db->update("suggestions", $data);
 	}
 }
 

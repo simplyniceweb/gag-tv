@@ -8,6 +8,35 @@ class General {
 		$this->CI = get_instance();
 	}
 
+	public function explode_url($url = NULL) {
+		$yt_hash          = explode("?v=", $url);
+		// $hash             = $yt_hash[1];
+
+		// if not ?v= check if it's on &v=
+		if(empty($yt_hash[1])) {
+			$yt_hash      = explode("&v=", $url);
+			$hash         = $yt_hash[1];
+
+			 // if on &v= check if it has &list=
+			$list = explode("&", $hash);
+			if(!empty($list[0])) {
+				$hash = $list[0];
+			}
+
+			if(empty($hash)) {
+				$hash = $url;
+			}
+
+		} else { // if on ?v= check if it has &list=
+			$list = explode("&", $yt_hash[1]);
+			if(!empty($list[0])) {
+				$hash = $list[0];
+			}
+		}
+
+		return $hash;
+	}
+
 	public function youtube_validate($youtube_hash = NULL) {
 		$params['apikey'] = 'AI39si70XRv7aReKupQOlDgnFtHAEY6PR559ysCDOjqpOU-gT_fWLRb7I7TBHEK6SwqUs3DZ1z0UzC7nIc7GpzBX9fWtCNQl1Q';
 		$this->CI->load->library('youtube', $params);

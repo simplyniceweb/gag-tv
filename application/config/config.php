@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$url = 2;
+$url = 0;
 
 if($url == 0) {
 	$config['base_url']	= 'http://localhost/gagllery/';

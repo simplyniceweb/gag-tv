@@ -1,34 +1,16 @@
 <div id="fb-root"></div>
 <script src="<?php echo base_url() ?>tools/scripts/jquery-2.1.0.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url() ?>tools/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<?php $this->load->view("includes/configuration"); ?>
+<?php
+	$this->load->view("includes/configuration");
+	if($this->uri->segment(1) == "v" || !$this->uri->segment(1)) {
+?>
 <script src="<?php echo base_url() ?>tools/scripts/general.js" type="text/javascript"></script>
-<script type="text/javascript">
-<!-- Google Analytics -->
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-49300715-1', 'gagllery.com');
-ga('send', 'pageview');
-<!-- Facebook API -->
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=1403860496495828";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-<!-- Twitter API -->
-!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-<!-- Google Plus -->
-(function() {
-var po = document.createElement('script'); 
-po.type = 'text/javascript'; po.async = true;
-po.src = 'https://apis.google.com/js/platform.js';
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-})();
+<?php } else { ?>
+<script src="<?php echo base_url() ?>tools/scripts/admin.js" type="text/javascript"></script>
+<?php } ?>
+<script>
+(function(e,t,n,r,i,s,o){e["GoogleAnalyticsObject"]=i;e[i]=e[i]||function(){(e[i].q=e[i].q||[]).push(arguments)},e[i].l=1*new Date;s=t.createElement(n),o=t.getElementsByTagName(n)[0];s.async=1;s.src=r;o.parentNode.insertBefore(s,o)})(window,document,"script","//www.google-analytics.com/analytics.js","ga");ga("create","UA-49300715-1","gagllery.com");ga("send","pageview");(function(e,t,n){var r,i=e.getElementsByTagName(t)[0];if(e.getElementById(n))return;r=e.createElement(t);r.id=n;r.src="//connect.facebook.net/en_GB/all.js#xfbml=1&appId=1403860496495828";i.parentNode.insertBefore(r,i)})(document,"script","facebook-jssdk");!function(e,t,n){var r,i=e.getElementsByTagName(t)[0],s=/^http:/.test(e.location)?"http":"https";if(!e.getElementById(n)){r=e.createElement(t);r.id=n;r.src=s+"://platform.twitter.com/widgets.js";i.parentNode.insertBefore(r,i)}}(document,"script","twitter-wjs");(function(){var e=document.createElement("script");e.type="text/javascript";e.async=true;e.src="https://apis.google.com/js/platform.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})()
 </script>
 </body>
 </html>

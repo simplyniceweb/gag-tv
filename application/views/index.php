@@ -6,7 +6,7 @@
         	<span class="youtube-id" data-id="<?php echo $feat->hash; ?>"></span>
         	<div class="col-sm-8">
 				<div class="theater video-wrapper">
-                	<iframe id="player" src="//www.youtube.com/embed/<?php echo $feat->hash; ?>?&amp;autohide=1&amp;fs=1&amp;modestbranding=1&amp;iv_load_policy=3&amp;rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+                	<iframe id="player" src="//www.youtube.com/embed/<?php echo $feat->hash; ?>?&amp;autohide=1&amp;fs=1&amp;modestbranding=1&amp;iv_load_policy=3&amp;rel=0&amp;showinfo=0&amp;enablejsapi=1" allowfullscreen></iframe>
                 </div>
                 
                 <div class="prev-next">
@@ -27,16 +27,12 @@
             </div>
 
             <div class="col-sm-4 video-details">
-                <h3>
-				<?php echo $feat->sub_title; ?>
-                <?php if($feat->nsfw == 1) { echo "(NSFW)"; }?>
-                </h3>
+                <h3><?php echo $sub_title; ?><?php if($nsfw == 1) { echo " (NSFW)"; } ?></h3>
                 <p></p>
-                <p><?php echo $feat->sub_descriptions; ?></p>
+                <p><?php echo $sub_desc; ?></p>
                 <p>
                     <span class="fa fa-thumbs-o-up" title="Like count"></span> &nbsp; <small class="like-count"></small>
                     &nbsp;&nbsp;&nbsp;
-
                     <span class="fa fa-thumbs-o-down" title="Dislike count"></span> &nbsp;  <small class="dislike-count"></small>
                 </p>
 
@@ -46,16 +42,18 @@
 
                     <span class="fa fa-eye" title="View count"></span> &nbsp; <small class="view-count"></small>
                 </p>
-
+				<p></p>
                 <div class="btn-group">
-					<a  class="fb-share btn btn-primary" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo base_url() . "v/" . $feat->hash; ?>" title="<?php echo $feat->sub_title; ?>" target="_blank">Facebook</a>
+					<a  class="fb-share btn btn-primary" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo base_url()."v/".$feat->hash; ?>" title="<?php echo $sub_title; ?>" target="_blank">Facebook</a>
                     <span class="active btn btn-primary"><i class="fa fa-facebook fa-lg"></i></span>
                 </div>
 &nbsp;&nbsp;
                 <div class="btn-group">
-                    <a class="twitter-share btn btn-info" href="http://twitter.com/share?url=<?php echo base_url() . "v/" . $feat->hash; ?>" title="<?php echo $feat->sub_descriptions; ?>" target="_blank">Twitter</a>
+                    <a class="twitter-share btn btn-info" href="http://twitter.com/share?url=<?php echo base_url()."v/".$feat->hash; ?>" title="<?php echo $sub_title; ?>" target="_blank">Twitter</a>
                     <span class="active btn btn-info"><i class="fa fa-twitter fa-lg"></i></span>
                 </div>
+                <p></p>
+                <p><a class="btn btn-default" data-toggle="modal" data-target="#fbComments">Comments <i class="fa fa-comments-o"></i></a></p>
             </div>
         </div>
     </div>
@@ -68,9 +66,24 @@
                 	<h4 class="feat-text">Featured Video</h4>
 				</div>
             </div>
-            <div class="col-sm-12 video-pagination"></div>
+            <div class="col-sm-12 video-pagination">
+            	<?php include(__DIR__ . "/includes/videos.php"); ?>
+            </div>
         </div>
 	</div>
 </section>
 
+<div class="modal fade" id="fbComments">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Facebook comments</h4>
+      </div>
+      <div class="modal-body">
+		<div class="fb-comments" data-href="http://gagllery.com/v/<?php echo $feat->hash; ?>" data-numposts="20" data-colorscheme="light"></div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <?php include(__DIR__ . "/footer.php"); ?>

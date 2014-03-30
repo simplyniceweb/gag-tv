@@ -1,12 +1,10 @@
 <?php 
-if($this->uri->segment(1) == "admin") {
-	include(__DIR__ . "/admin/metadata.php");
-} else {
+if($this->uri->segment(1) == "v") {
 	include(__DIR__ . "/includes/metadata.php");
+} else {
+	include(__DIR__ . "/admin/metadata.php");
 }
 ?>
-
-<body>
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation">
   <div class="container">
@@ -22,10 +20,10 @@ if($this->uri->segment(1) == "admin") {
     </div>
 
     <div class="navbar-collapse collapse">
-
       <ul class="nav navbar-nav">
-        <li><a href="javascript:void(0)">Suggest</a></li>
-        <li><a href="javascript:void(0)">Help<!-- &nbsp;<span class="label-new label label-success">New</span> --></a></li>
+      	<li><a href="#" data-toggle="modal" data-target="#suggestVideo"><span class="fa fa-video-camera"></span>&nbsp;Suggest Video</a></li>
+		<li><a href="https://www.facebook.com/messages/Gagllery" target="_blank"><span class="fa fa-envelope-o"></span>&nbsp;Message</a></li>
+        <!-- <li><a href="javascript:void(0)">Help &nbsp;<span class="label-new label label-success">New</span> </a></li> -->
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

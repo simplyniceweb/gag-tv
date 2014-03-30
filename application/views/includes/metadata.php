@@ -1,34 +1,36 @@
 <?php
 if(isset($featured)) {
 	foreach($featured as $feat) {
+		$sub_title = htmlentities($feat->sub_title);
+		$sub_desc  = htmlentities($feat->sub_descriptions);
+		$nsfw      = $feat->nsfw;
 	}
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title><?php echo htmlentities($sub_title) ." - ". $title; ?></title>
+    <link rel="canonical" href="<?php echo base_url() ?>" />
+    
     <meta charset="utf-8">
-    <title><?php echo $feat->sub_title ." - ". $title; ?></title>
-    <meta name="description" content="<?php echo $feat->sub_descriptions; ?>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes" />
-
-    <meta itemprop="name" content="<?php echo $feat->sub_title; if($feat->nsfw == 1) { echo " (NSFW)"; } ?>">
-    <meta itemprop="description" content="<?php echo $feat->sub_descriptions; ?>">
-    <meta itemprop="image" content="<?php echo base_url() ?>tools/images/<?php echo $feat->image; ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="<?php echo $sub_desc; ?>" />
+    <meta name="keywords" content="Gagllery, Gagllery.com, tv, video, jokes, interesting, cool, fun collection, fun portfolio, admire, fun, humor, humour, just for fun, vines, best vines, funny vines, funny videos, vids, creative, clever, awesome, fantastic"/>
 
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:site" content="Gagllery.com"/>
     <meta name="twitter:url" content="<?php echo base_url() ?>v/<?php echo $feat->hash; ?>"/>
-    <meta name="twitter:title" content="<?php echo $feat->sub_title; if($feat->nsfw == 1) { echo " (NSFW)"; } ?>"/>
-    <meta name="twitter:description" content="<?php echo $feat->sub_descriptions; ?>"/>
+    <meta name="twitter:title" content="<?php echo $sub_title; if($nsfw == 1) { echo " (NSFW)"; } ?>"/>
+    <meta name="twitter:description" content="<?php echo $sub_desc; ?>"/>
     <meta name="twitter:image" content="<?php echo base_url() ?>tools/images/<?php echo $feat->image; ?>"/>
-
-    <meta property="og:title" content="<?php echo $feat->sub_title; if($feat->nsfw == 1) { echo " (NSFW)"; } ?>" />
+    
+    <meta property="og:title" content="<?php echo $sub_title; if($nsfw == 1) { echo " (NSFW)"; } ?>" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="<?php echo base_url() ?>v/<?php echo $feat->hash; ?>" />
     <meta property="og:image" content="<?php echo base_url() ?>tools/images/<?php echo $feat->image; ?>"/>
-    <meta property="og:description" content="<?php echo $feat->sub_descriptions; ?>" /> 
+    <meta property="og:description" content="<?php echo $sub_desc; ?>" /> 
     <meta property="og:site_name" content="Gagllery.com" />
     <meta property="fb:app_id" content="1403860496495828">
 
@@ -37,8 +39,9 @@ if(isset($featured)) {
     <link href="<?php echo base_url() ?>tools/styles/general.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>tools/styles/admin.css" rel="stylesheet">
 
-	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?php echo base_url() ?>tools/icons/gagllery.ico"/>
+    <link href="<?php echo base_url() ?>tools/icons/gagllery.ico" rel="shortcut icon" />
     <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="<?php echo base_url() ?>tools/icons/57x57.png" />
     <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 132dpi)" href="<?php echo base_url() ?>tools/icons/72x72.png" />
     <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="<?php echo base_url() ?>tools/icons/114x114.png" />
 </head>
+<body Itemscope itemtype="http://schema.org/Article">
