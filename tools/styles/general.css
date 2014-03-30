@@ -47,8 +47,6 @@ span.btn {
 }
 	.thumbnail a {
 		display: block;
-		min-width: 247px;
-		min-height: 144px;
 		background-color: transparent;
 		position: relative;
 	}
