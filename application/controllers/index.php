@@ -2,17 +2,21 @@
 
 class Index extends CI_Controller {
 
+	private $per_page = 2;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->library('general');
     }
 
 	public function index() {
-
 		$hash = $this->uri->segment(2);
+		$num = $this->uri->segment(3, 0);
 		$validation = $this->general->youtube_validate($hash);
 		if(!empty($hash) && !is_null($validation) && !empty($validation)) {
 			$this->db->where("hash", $hash);
+		} else {
+			$hash = NULL;
 		}
 
 		$this->db->where("view_status", 5);
@@ -32,7 +36,7 @@ class Index extends CI_Controller {
 			'prev'     => $prev
 		);
 
-		$videos = self::videos(1);
+		$videos = self::videos(1, $num, $hash);
 		$data['videos']     = $videos['videos'];
 		$data['pagination'] = $videos['pagination'];
 
@@ -57,33 +61,76 @@ class Index extends CI_Controller {
 		}
 	}
 
-	public function videos($val = NULL) {
+	public function load_api() {
+		$hash = $this->input->post("video_id");
+		$validation = $this->general->youtube_validate($hash);
+		if($validation) {
+			$this->db->where("hash", $hash);
+			$this->db->where("view_status", 5);
+			$get = $this->db->get("videos");
+
+			if($get->num_rows() > 0) {
+				$start = $get->row()-1;
+				foreach($get->result() as $row) {
+					$this->db->where("video_id < ", $row->video_id);
+					$this->db->where("view_status", 5);
+					$this->db->order_by("video_id", "DESC");
+					$this->db->limit($this->per_page, $start);
+					$videos = $this->db->get("videos");
+				}
+			}
+			if($videos->num_rows() > 0) {
+				$this->load->view('includes/videos', array("videos" => $videos->result(), "pagination" => NULL));
+			} else {
+				return $this->output->set_output("No more to load.");
+			}
+		}
+		return FALSE;
+	}
+
+	public function videos($val = NULL, $num = NULL, $hash = NULL) {
 		$this->load->library('pagination');
 		$this->load->model('video_model');
 
 		$start = $this->uri->segment(3);
-		if(!$start) $start = 0;
+		if(!$start && is_null($num)) {
+			$start = 0;
+		} else {
+			$start = $num;
+		}
 
 		$pagination_config = array(
 			'uri_segment'    => 3,
-			'per_page'       => 16,
-			'display_pages'  => FALSE,
-			'full_tag_open'  => '<ul class="pager">',
-			'full_tag_close' => '</ul>',
+			'per_page'       => $this->per_page,
+			'next_link'      => 'Next &rarr;',
+			'prev_link'      => '&larr; Prev',
+			'first_link'     => '&larr; First',
+			'last_link'      => 'Last &rarr;',
+			'first_tag_open' => '<li class="previous">',
 			'prev_tag_open'  => '<li class="previous">',
-			'prev_tag_close' => '</li>',
+			'last_tag_open'  => '<li class="next">',
 			'next_tag_open'  => '<li class="next">',
+			'first_tag_close'=> '</li>',
+			'last_tag_close' => '</li>',
+			'prev_tag_close' => '</li>',
 			'next_tag_close' => '</li>',
-			'base_url'       => base_url() . 'index/videos',
+			'full_tag_close' => '</ul>',
+			'num_tag_open'   => '<li>',
+			'num_tag_close'  => '</li>',
+			'cur_tag_close'  => '</a></li>',
+			'full_tag_open'  => '<ul class="pagination">',
+			'cur_tag_open'   => '<li><a class="disable-link">',
+			'base_url'       => base_url() . 'videos/pages',
 			'total_rows'     => $this->video_model->total_videos(),
 		);
 
-		$getter = $this->video_model->video_pagination($start, $pagination_config['per_page']);
+		$getter = $this->video_model->video_pagination($start, $pagination_config['per_page'], $hash);
 		$this->pagination->initialize($pagination_config);
+		$paginate = !empty($hash) ? NULL : $this->pagination->create_links();
 
 		$data = array(
-			'videos'   => $getter,
-			'pagination' => $this->pagination->create_links()
+			'videos'     => $getter,
+			'pagination' => $paginate
 		);
 
 		if(!is_null($val) && $val == 1) {
@@ -236,8 +283,18 @@ class Index extends CI_Controller {
 					'created_at'       => date('Y-m-d h:i:s'),
 					'modified_at'      => date('Y-m-d h:i:s'),
 				);
-	
+
 				$this->db->insert("suggestions", $save);
+
+				$this->load->library('email');
+				$this->email->set_newline("\r\n");
+				$this->email->from('gagllery@gmail.com', '[Gagllery Admin]');
+				$this->email->to("simplyniceweb@gmail.com");
+				$this->email->subject('[Gagllery Admin] Notification');
+				$this->email->message('Hello Master SimplyNice, We have new suggestion.');
+				
+				$sent = $this->email->send();
+
 				return $this->output->set_output("success");
 			}
 		}

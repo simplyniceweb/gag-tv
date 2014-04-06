@@ -1,8 +1,9 @@
 <?php
+$segment = $this->uri->segment(1);
 if(isset($featured)) {
 	foreach($featured as $feat) {
-		$sub_title = htmlentities($feat->sub_title);
-		$sub_desc  = htmlentities($feat->sub_descriptions);
+		$sub_title = htmlspecialchars($feat->sub_title);
+		$sub_desc  = htmlspecialchars($feat->sub_descriptions);
 		$nsfw      = $feat->nsfw;
 	}
 }
@@ -10,11 +11,19 @@ if(isset($featured)) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <!--
+      GGGG    AAA     GGGG  LL      LL      EEEEEEE RRRRRR  YY   YY 
+     GG  GG  AAAAA   GG  GG LL      LL      EE      RR   RR YY   YY 
+    GG      AA   AA GG      LL      LL      EEEEE   RRRRRR   YYYYY  
+    GG   GG AAAAAAA GG   GG LL      LL      EE      RR  RR    YYY   
+     GGGGGG AA   AA  GGGGGG LLLLLLL LLLLLLL EEEEEEE RR   RR   YYY
+    -->
     <title><?php echo $title; ?></title>
-    <?php if($this->uri->segment(1) == "admin") : ?>
+    <link rel="canonical" href="<?php echo base_url() ?>" />
+    <?php if($segment == "admin") : ?>
     <meta name="robots" value="noindex" />
     <?php endif; ?>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Gagllery.com offers you youtube videos that's worth watching for!" />
@@ -35,7 +44,9 @@ if(isset($featured)) {
     <link href="<?php echo base_url() ?>tools/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>tools/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>tools/styles/general.css" rel="stylesheet">
+    <?php if($segment == "admin"): ?>
     <link href="<?php echo base_url() ?>tools/styles/admin.css" rel="stylesheet">
+    <?php endif; ?>
 
 	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?php echo base_url() ?>tools/icons/gagllery.ico"/>
     <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="<?php echo base_url() ?>tools/icons/57x57.png" />

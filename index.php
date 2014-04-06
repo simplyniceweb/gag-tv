@@ -20,6 +20,7 @@
  */
 	// define('ENVIRONMENT', 'development');
 	define('ENVIRONMENT', 'production');
+	// define('ENVIRONMENT', 'maintenance');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -38,6 +39,9 @@ if (defined('ENVIRONMENT'))
 		case 'development':
 			error_reporting(E_ALL);
 		break;
+
+		case 'maintenance':
+			exit('Gagllery.com is under maintenance, we will get back to you after 30 mins.');
 	
 		case 'testing':
 		case 'production':

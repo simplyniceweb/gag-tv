@@ -1,4 +1,5 @@
 ;(function () {
+
 	var SocNetConf = {
 		view          : $("small.view-count"),
 		like          : $("small.like-count"),
@@ -11,7 +12,9 @@
 		suggestion    : 'form#suggestion',
 		error_handler : 'div.error-handler',
 		suggest_btn   : 'button.suggest-btn',
-		modal_suggest : '#suggestVideo'
+		modal_suggest : '#suggestVideo',
+		load_more     : '.load-more',
+		status        : 0,
 	}
 
 	var SocNetFunc = {
@@ -61,8 +64,32 @@
 				})
 			})
 		},
+		load_more: function() {
+			return this.delegate(SocNetConf.load_more, "click", function(e){
+				e.preventDefault();
+				if(SocNetConf.status == 1) return false;
+				SocNetConf.status = 1;
+				var me = $(this), last = $(".thumbnail:last");
+				me.html('<span class="fa fa-cog fa-spin"></span>');
+				$.ajax({
+					url: config.base_url + 'index/load_api/',
+					type: 'POST',
+					data: { "video_id": last.data("id"), "gagllery_csrf": config.cookie },
+					success: function(response){
+						if(response == "No more to load.") {
+							me.removeClass("btn-info").addClass("btn-warning").html(response);
+						} else {
+							me.html('Load more videos ...');
+							last.parent().after(response);
+						}
+						SocNetConf.status = 0;
+					}, error: function () {
+						console.log('Failed to process your request!');
+					}
+				})
+			})
+		},
 		get_videos: function(url) {
-			console.log("getter");
 			$.ajax({
 				url: url,
 				type: 'POST',
@@ -110,11 +137,12 @@
 
 	$.extend(config.doc, SocNetFunc);
 	config.doc.fb_share();
+	config.doc.load_more();
 	config.doc.suggestion();
 	config.doc.get_details();
 	config.doc.twitter_share();
-	config.doc.paginate_next();
-	config.doc.paginate_prev();
+	// config.doc.paginate_next();
+	// config.doc.paginate_prev();
 	config.doc.remove_warning();
 
 })(jQuery, window, document);

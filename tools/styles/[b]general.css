@@ -1,0 +1,135 @@
+body {
+	font-size:13px;
+}
+
+/* page content */
+.page-content {
+	padding: 40px 0 10px 0;
+	background-color: #000000
+}
+.theater.video-wrapper iframe {
+	border: 0;
+	width: 100%;
+	height: 100%;
+	min-height: 390px;
+}
+.video-details h3 {
+	margin: 0;
+	color: #FFF;
+	word-wrap: break-word;
+}
+	.video-details p {
+		color: #777777;
+		word-wrap: break-word;
+	}
+span.yt-rating small{
+	width: 250px;
+	display: inline
+}
+span.btn {
+	cursor: default
+}
+.prev-next {
+	margin: 5px 0
+}
+/* featured videos */
+.featured-video {
+	padding: 20px 0;
+	min-height: 400px;
+	background-color: #FFF;
+}
+.feat-text {
+	color: #737373
+}
+.thumbnail {
+	border: 0;
+	margin: 0;
+	height: 220px;
+	background: none
+}
+	.thumbnail a {
+		display: block;
+		background-color: transparent;
+		position: relative;
+	}
+	.thumbnail .caption {
+		font-weight: bold;
+		padding: 5px 0 0 0;
+	}
+.video-play {
+	display: none;
+	top: 50%;
+	left: 50%;
+	width: 48px;
+	height: 48px;
+	opacity: 0.80;
+	position: absolute;
+	margin-top: -24px;
+	margin-left: -24px;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+	background: transparent url('../icons/play.png') no-repeat;
+}
+	.thumbnail:hover .video-play {
+		display: table-cell;
+		vertical-align: middle
+	}
+.video-time {
+	zoom: 1;
+	color: #FFF;
+	height: 14px;
+	opacity: .75;
+	padding: 0 4px;
+	font-size: 11px;
+	line-height: 14px;
+	position: absolute;
+	background-color: #000;
+	filter: alpha(opacity=75);
+	display: -moz-inline-stack;
+}
+/* Submit video */
+.submit-success {
+	display: none
+}
+/* Pagination */
+.disable-link {
+	color: #4D4D4D !important;
+	cursor: default;
+}
+
+/* footer */
+footer {
+	padding: 40px 0;
+	background-color: #000000
+}
+
+/* Custom */
+.navbar {
+	margin-bottom: 0;
+}
+a.navbar-brand {
+	background: transparent url('../icons/icon.jpg') no-repeat 15px 11px;
+	padding-left: 50px;
+	padding-right: 50px;
+	height: 45px;
+	width: 115px;
+}
+.label-new {
+	top: 0;
+	margin-top: 3px;
+	margin-left: -9px;
+	position: absolute
+}
+
+/* fixed social network button */
+#twitter-widget-0 {
+	margin-top: 15px;
+}
+li a.link-g-follow {
+	max-height: 50px
+}
+@media all and (max-width: 768px) {
+	#twitter-widget-0 {
+		margin-left: 15px
+	}
+}

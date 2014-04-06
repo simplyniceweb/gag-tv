@@ -50,9 +50,9 @@ class Admin extends CI_Controller {
 			$yt = $this->general->youtube_details($hash);
 
 			$img_url      = $yt['entry']['media$group']['media$thumbnail'][2]['url'];
-			$title        = $yt['entry']['title']['$t'];
+			//$title        = $yt['entry']['title']['$t'];
 			$seconds      = $yt['entry']['media$group']['yt$duration']['seconds'];
-			$descriptions = $yt['entry']['media$group']['media$description']['$t'];
+			//$descriptions = $yt['entry']['media$group']['media$description']['$t'];
 
 			// Time calculation
 			if($seconds >= 3600) {
@@ -70,15 +70,18 @@ class Admin extends CI_Controller {
 			$this->load->model('video_model');
 			$this->video_model->manipulate_img( $local_path . "images/".$img_name, $local_path . "icons/via.png" );
 
+			$title        = $this->general->remove_accent($sub_title);
+			$descriptions = $this->general->remove_accent($sub_descriptions);
+			$slug         = $hash."/".$this->general->slug_url($sub_title);
+
 			// Insert to database
 			$save = array(
 				'hash'             => $hash,
-				// 'title'            => $title,
-				'sub_title'        => $sub_title,
+				'slug'             => $slug,
+				'sub_title'        => $title,
 				'duration'         => $duration,
 				'image'            => $img_name,
-				// 'descriptions'     => $descriptions,
-				'sub_descriptions' => $sub_descriptions,
+				'sub_descriptions' => $descriptions,
 				'nsfw'             => $nsfw,
 				'video_type'       => 1, // 1 youtube
 				'view_status'      => 5, // 5 accepted, 2 = pending, 1 = deleted
@@ -157,10 +160,13 @@ class Admin extends CI_Controller {
 		foreach($get->result() as $g) {
 			$name  = $g->full_name;
 			$email = $g->email;
+			$title = $this->general->remove_accent($g->sub_title);
+			$slug  = $g->link."/".$this->general->slug_url($g->sub_title);
 			$transfer = array(
 				'image'            => $g->link.".jpg",
 				'hash'             => $g->link,
-				'sub_title'        => $g->title,
+				'slug'             => $slug,
+				'sub_title'        => $title,
 				'duration'         => $g->duration,
 				'sub_descriptions' => $g->description,
 				'nsfw'             => $g->nsfw,
@@ -177,17 +183,7 @@ class Admin extends CI_Controller {
 		$this->db->where("suggestion_id", $id);
 		$this->db->update("suggestions", $data);
 
-		$config = array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'ssl://smtp.googlemail.com',
-			'smtp_port' => 465,
-			'smtp_user' => 'gagllery@gmail.com',
-			'smtp_pass' => 'E9o74KfN519025',
-			'mailtype'  => 'html', 
-			'charset'   => 'iso-8859-1'
-		);
-
-		$this->load->library('email', $config);
+		$this->load->library('email');
 		$this->email->set_newline("\r\n");
 		
 		$this->email->from('gagllery@gmail.com', '[Gagllery]');
@@ -209,6 +205,24 @@ class Admin extends CI_Controller {
 		$data = array("view_status" => 1, "modified_at" => date('Y-m-d h:i:s') );
 		$this->db->where("suggestion_id", $id);
 		$this->db->update("suggestions", $data);
+	}
+
+	public function slug_converter() {
+		$access = $this->session->userdata('access');
+		if(!$access) {
+			show_404();
+		}
+
+		$this->load->library('general');
+
+		$this->db->where("view_status", 5);
+		$slug = $this->db->get("videos");
+
+		foreach($slug->result() as $sl) {
+			$this->db->where("video_id", $sl->video_id);
+			$this->db->update("videos", array("slug" => $sl->hash."/".$this->general->slug_url($sl->sub_title)));
+			echo $this->general->slug_url($sl->sub_title) . "<br/>";
+		}
 	}
 }
 

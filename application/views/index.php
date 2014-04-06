@@ -44,35 +44,44 @@
                 </p>
 				<p></p>
                 <div class="btn-group">
-					<a  class="fb-share btn btn-primary" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo base_url()."v/".$feat->hash; ?>" title="<?php echo $sub_title; ?>" target="_blank">Facebook</a>
+					<a  class="fb-share btn btn-primary" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo base_url()."v/".$feat->slug; ?>" title="<?php echo $sub_title; ?>" target="_blank">Facebook</a>
                     <span class="active btn btn-primary"><i class="fa fa-facebook fa-lg"></i></span>
                 </div>
 &nbsp;&nbsp;
                 <div class="btn-group">
-                    <a class="twitter-share btn btn-info" href="http://twitter.com/share?url=<?php echo base_url()."v/".$feat->hash; ?>" title="<?php echo $sub_title; ?>" target="_blank">Twitter</a>
+                    <a class="twitter-share btn btn-info" href="http://twitter.com/share?url=<?php echo base_url()."v/".$feat->slug; ?>" title="<?php echo $sub_title; ?>" target="_blank">Twitter</a>
                     <span class="active btn btn-info"><i class="fa fa-twitter fa-lg"></i></span>
                 </div>
                 <p></p>
-                <p><a class="btn btn-default" data-toggle="modal" data-target="#fbComments">Comments <i class="fa fa-comments-o"></i></a></p>
+                <div class="fb-like" data-href="<?php echo base_url()."v/".$feat->hash; ?>" data-layout="button_count" 
+                data-action="like" data-show-faces="true" data-share="false"></div>
             </div>
         </div>
     </div>
 </section>
 <section class="featured-video">
     <div class="container">
-        <div class="row">            
-        	<div class="col-sm-12">
-            	<div class="col-md-3">
-                	<h4 class="feat-text">Featured Video</h4>
-				</div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-md-3">
+                    <h4 class="feat-text">Featured Video</h4>
+                </div>
             </div>
             <div class="col-sm-12 video-pagination">
-            	<?php include(__DIR__ . "/includes/videos.php"); ?>
+            <?php include(__DIR__ . "/includes/videos.php"); ?>
+            <div class="clearfix"></div>
+            <div class="text-center">
+				<?php if($segment == "v") { ?>
+                	<a href="<?php echo base_url(); ?>#" class="btn btn-info btn-md load-more">Load more videos...</a>
+                <?php } else { ?>
+					<?php echo $pagination;  ?>
+                <?php } ?>
             </div>
+			</div>
         </div>
 	</div>
 </section>
-
+<?php /*
 <div class="modal fade" id="fbComments">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -83,7 +92,8 @@
       <div class="modal-body">
 		<div class="fb-comments" data-href="http://gagllery.com/v/<?php echo $feat->hash; ?>" data-numposts="20" data-colorscheme="light"></div>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
+*/ ?>
 <?php include(__DIR__ . "/footer.php"); ?>

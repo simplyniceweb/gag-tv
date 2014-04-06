@@ -3,7 +3,7 @@
 <script src="<?php echo base_url() ?>tools/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <?php
 	$this->load->view("includes/configuration");
-	if($this->uri->segment(1) == "v" || !$this->uri->segment(1)) {
+	if($segment == "v" || $segment == "videos" || !$segment ) {
 ?>
 <script src="<?php echo base_url() ?>tools/scripts/general.js" type="text/javascript"></script>
 <?php } else { ?>

@@ -40,6 +40,8 @@
 
 $route['default_controller'] = "index";
 $route['v/(:any)'] = "index/index/$1";
+$route['videos/pages'] = "index/index/p/0";
+$route['videos/pages/(:any)'] = "index/index/p/$1";
 $route['privacy'] = "index/privacy";
 $route['404_override'] = '';
 

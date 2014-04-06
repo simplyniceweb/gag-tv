@@ -1,16 +1,15 @@
 <?php
 	foreach($videos as $vid) {
-		$sub_title = htmlentities($vid->sub_title);
-		$sub_desc  = htmlentities($vid->sub_descriptions);
-		$nsfw      = $vid->nsfw;
+		$sub_title = htmlspecialchars($vid->sub_title);
+		$nsfw      = htmlspecialchars($vid->nsfw);
 
 		 if(strlen($sub_title) > 95) { 
 			$sub_title = substr($sub_title, 0 , 95)."...";
 		}
 ?>
     <div class="col-md-3 col-sm-4 col-xs-6">
-        <div class="thumbnail">
-            <a href="<?php echo base_url(); ?>v/<?php echo $vid->hash; ?>">
+        <div class="thumbnail" data-id="<?php echo $vid->hash; ?>">
+            <a href="<?php echo base_url(); ?>v/<?php echo $vid->slug; ?>">
                 <span class="video-play"></span>
                 <span class="video-time">
                 <span class="fa fa-clock-o" title="Video duration"></span>&nbsp;<?php echo $vid->duration; ?></span>
@@ -22,7 +21,3 @@
         </div>
     </div>
 <?php } ?>
-<div class="clearfix"></div>
-<div class="col-sm-2 col-sm-offset-5">
-    <?php echo $pagination; ?>
-</div>

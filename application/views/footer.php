@@ -46,7 +46,7 @@
             <input type="radio" name="nsfw" value="0" required> SAFE
           </label>
           <label class="btn btn-danger">
-            <input type="radio" name="nsfw" value="1" required> NSFW
+            <input type="radio" name="nsfw" value="1" required> Not Safe For Work
           </label>
         </div>
         <br /><br />

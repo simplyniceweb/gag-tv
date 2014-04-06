@@ -21,7 +21,13 @@ if($url == 0) {
 } else if($url == 1){
 	$config['base_url']	= 'http://gagllery.com/gagllery/';
 } else {
-	$config['base_url']	= 'http://gagllery.com/';
+	$domain = $_SERVER['HTTP_HOST'];
+	$params = explode('.', $domain);
+	if(sizeof($params === 3) AND $params[0] == 'www') {
+		$config['base_url']	= 'http://www.gagllery.com/';
+	} else {
+		$config['base_url']	= 'http://gagllery.com/';
+	}
 }
 
 /*
